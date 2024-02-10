@@ -1,0 +1,7 @@
+The Oracle Database SQL Certified Associate is described in the following way on the Oracle website:
+
+“An Oracle Database SQL Certified Associate demonstrates understanding of fundamental SQL concepts needed to undertake any database project. Candidates have illustrated a depth of knowledge of SQL and its use when working with the Oracle Database server, and a working knowledge of queries, insert, update and delete SQL statements as well as some Data Definition language and Data Control Language, the optimizer, tables and indexes, data modeling and normalization.”
+
+In early 2023, I began studying for the IZO-071 exam in the hopes of becoming an Oracle Certified Associate. I took the exam and passed on May 30th of that same year. Since then I have worked to maintain and increase my SQL skills, taking online tutorials for DBT, Snowflake, and PL/SQL, and completing a number of projects in MySQL.
+
+Learning SQL has provided me with an immeasurably valuable skill, and has served as a foundation for many other skills related to data science and statistical programming. Some of these skills include the Python libraries relating to data science such as pandas and numpy, R, Tableau, and Procedural Language SQL (PL/SQL).
