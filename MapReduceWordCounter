@@ -1,0 +1,90 @@
+This project consists of two main parts: moving data from a local linux file system to HDFS, and compiling and running a Java MapReduce program to count the number of times each unique word is used in a set of documents. The set of documents used in this project are the complete works of Shakespeare.  
+
+/ Change directories and list objects in our local file system
+
+$ cd ~/training/materials/developer/data
+$ ls 
+
+/ Now we will unzip the tar file containing the complete works of Shakespeare
+
+$ tar zxvf shakespeare.tar.gz
+
+/ This creates a directory in the local file system called shakespeare/ -- Next we will
+/ put this directory into the HDFS file system
+
+$ hadoop fs -put shakespeare /user/training/shakespeare
+
+/ Now we will make sure that the Shakespeare directory has been put into the HDFS home directory
+
+$ hadoop fs -ls
+
+/ Next we'll make a directory to put in a sample web server log file in HDFS
+
+$ hadoop fs -mkdir weblog
+
+/ Next we'll extract and upload the file to the directory we just made
+
+$ gunzip -c access_log.gz | hadoop fs -put - weblog/access_log
+
+/ List contents of HDFS 
+
+$ hadoop fs -ls
+
+/ Create a smaller version of the access log consisting of first 5000 lines
+
+$ hadoop fs -mkdir testlog
+$ gunzip -c access_log.gz | head -n 5000 | hadoop fs -put - testlog/test_access_log
+
+/ List the files of the shakespeare directory
+
+$ hadoop fs -ls shakespeare
+
+/ Files in the directory include comedies, glossary, histories, poems, and tragedies. Remove glossary
+
+$ hadoop fs -rm shakespeare/glossary
+
+/ Take a look at some of the actual text from one of the files.
+
+$ hadoop fs -cat shakespeare/histories | tail -n 50
+
+/ Download the poems from the HDFS system to the local linux system and show the contents
+
+$ hadoop fs -get shakespeare/poems ~/shakepoems.txt
+$ less ~/shakepoems.txt
+
+/ Compile Java files, create a JAR, and run MapReduce jobs
+
+/ Compile three Java classes, WordCount.java, WordMapper.java, SumReducer.java in the stubs directory
+
+$ javac -classpath `hadoop classpath` stubs/*.java
+
+/ Collect files into a JAR file
+
+$ jar cvf wc.jar stubs/*.class
+
+/ Submit MapReduce to Hadoop (stubs.WordCount is the main method, shakespeare is the input directory,   wordcounts is the output directory)
+
+$ hadoop jar wc.jar stubs.WordCount shakespare wordcounts
+
+/ Review results of the MapReduce job:
+
+$ hadoop fs -ls wordcounts
+
+/ This lists the ouput of the job. For this set up, we have only one Reducer, so this generated only one file actual results, part-r-00000
+
+/ View the contents of the file
+
+$ hadoop fs -cat wordcounts/part-r-00000 | less
+
+/ Run the WordCount job against a single file
+
+$ hadoop jar wc.jar stubs.WordCount shakespeare/poems pwords
+
+/ Remove output directory from the job
+
+$ hadoop fs -rm -r wordcounts words
+
+
+
+
+
